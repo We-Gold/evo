@@ -16,7 +16,7 @@ jobs:
                   flutter-version: "3.0.1"
             - run: flutter pub get
             - run: flutter test
-            - run: flutter build web
+            - run: flutter build web --base-href=/evo/
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@4.1.4
               with:
