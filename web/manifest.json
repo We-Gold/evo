@@ -4,7 +4,7 @@
 	"start_url": "./",
 	"id": "/evo/",
 	"display": "standalone",
-	"background_color": "#F2CD5C",
+	"background_color": "#000000",
 	"theme_color": "#4BC3F2",
 	"description": "",
 	"orientation": "portrait-primary",
