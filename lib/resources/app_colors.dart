@@ -5,4 +5,5 @@ class AppColors {
   static const Color theme2 = Color.fromRGBO(60, 166, 155, 1);
   static const Color theme3 = Color.fromRGBO(146, 217, 95, 1);
   static const Color theme4 = Color.fromRGBO(242, 205, 92, 1);
+  static const Color theme5 = Color.fromRGBO(255, 145, 95, 1);
 }
