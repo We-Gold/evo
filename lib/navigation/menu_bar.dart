@@ -12,9 +12,8 @@ class MenuBar extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () => onclick(),
-        child: getContainer(MediaQuery.of(context).orientation)
-      ),
+          onTap: () => onclick(),
+          child: getContainer(MediaQuery.of(context).orientation)),
     );
   }
 
