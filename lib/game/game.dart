@@ -1,22 +1,32 @@
-import 'package:evo/navigation/menu_bar.dart';
-import 'package:evo/navigation/pages_model.dart';
+import 'package:evo/game/systems/test_system.dart';
 import 'package:evo/resources/app_colors.dart';
+import 'package:flame/game.dart';
+import 'package:flame_oxygen/flame_oxygen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class Game extends StatelessWidget {
-  const Game({Key? key}) : super(key: key);
+class EvoGame extends OxygenGame {
+  @override
+  Color backgroundColor() {
+    return AppColors.theme3;
+  }
 
   @override
-  Widget build(BuildContext context) {
-    final gameWidget = Expanded(child: Container(color: AppColors.theme3));
+  Future<void> init() async {
+    world.registerSystem(TestSystem());
 
-    return Consumer<PagesModel>(builder: (context, pages, child) {
-      return Visibility(
-          visible: pages.currentPage == Pages.game,
-          replacement: MenuBar(
-              color: AppColors.theme3, onclick: () => pages.navigateToGame()),
-          child: gameWidget);
-    });
+    world.createEntity().add<TextComponent, TextInit>(
+          TextInit('Your text', style: const TextStyle(color: Colors.white)),
+        );
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    canvas.drawRect(
+        Rect.fromCenter(
+            center: Offset(canvasSize.x / 2, canvasSize.y / 2),
+            width: 10,
+            height: 10),
+        Paint());
   }
 }

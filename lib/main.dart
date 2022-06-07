@@ -1,5 +1,5 @@
 import 'package:evo/configuration/configuration.dart';
-import 'package:evo/game/game.dart';
+import 'package:evo/game/game_widget.dart';
 import 'package:evo/navigation/menu_bar.dart';
 import 'package:evo/navigation/pages_model.dart';
 import 'package:evo/resources/app_colors.dart';

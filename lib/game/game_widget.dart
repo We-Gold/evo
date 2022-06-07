@@ -1,24 +1,26 @@
+import 'package:evo/game/game.dart';
 import 'package:evo/navigation/menu_bar.dart';
 import 'package:evo/navigation/pages_model.dart';
 import 'package:evo/resources/app_colors.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Configuration extends StatelessWidget {
-  const Configuration({Key? key}) : super(key: key);
+class Game extends StatelessWidget {
+  const Game({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final configurationWidget =
-        Expanded(child: Container(color: AppColors.theme4));
+    final gameWidget = Expanded(
+      child: GameWidget(game: EvoGame()),
+    );
 
     return Consumer<PagesModel>(builder: (context, pages, child) {
       return Visibility(
-          visible: pages.currentPage == Pages.configuration,
+          visible: pages.currentPage == Pages.game,
           replacement: MenuBar(
-              color: AppColors.theme4,
-              onclick: () => pages.navigateToConfiguration()),
-          child: configurationWidget);
+              color: AppColors.theme3, onclick: () => pages.navigateToGame()),
+          child: gameWidget);
     });
   }
 }
