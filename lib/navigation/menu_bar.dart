@@ -13,11 +13,22 @@ class MenuBar extends StatelessWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () => onclick(),
-        child: Container(
-          color: color,
-          height: 35,
-        ),
+        child: getContainer(MediaQuery.of(context).orientation)
       ),
     );
+  }
+
+  Widget getContainer(Orientation orientation) {
+    if (orientation == Orientation.portrait) {
+      return Container(
+        color: color,
+        height: 35,
+      );
+    } else {
+      return Container(
+        color: color,
+        width: 35,
+      );
+    }
   }
 }

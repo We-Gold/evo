@@ -36,18 +36,35 @@ class AppPage extends StatefulWidget {
 }
 
 class AppPageState extends State<AppPage> {
+  final Game game = const Game();
+  final Configuration configuration = const Configuration();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          MenuBar(color: AppColors.theme1, onclick: () => {}),
-          MenuBar(color: AppColors.theme2, onclick: () => {}),
-          const Game(),
-          const Configuration(),
-        ],
-      ),
-    );
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      return Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            MenuBar(color: AppColors.theme1, onclick: () => {}),
+            MenuBar(color: AppColors.theme2, onclick: () => {}),
+            game,
+            configuration,
+          ],
+        ),
+      );
+    } else {
+      return Scaffold(
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            MenuBar(color: AppColors.theme1, onclick: () => {}),
+            MenuBar(color: AppColors.theme2, onclick: () => {}),
+            game,
+            configuration,
+          ],
+        ),
+      );
+    }
   }
 }
