@@ -1,7 +1,9 @@
 import 'package:evo/game/models/node_model.dart';
+import 'package:evo/resources/app_colors.dart';
 
 class InputNode extends Node {
-  InputNode() : super([], [null]);
+  InputNode(String title, String subtitle, double cost)
+      : super([], [null], title, subtitle, GameColors.inputNodeColor, cost);
 
   void setOutputNode(Node outputNode) {
     setOutputNodeAtIndex(0, outputNode);

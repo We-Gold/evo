@@ -15,7 +15,7 @@ class EvoGame extends OxygenGame {
   @override
   Future<void> init() async {
     world.registerSystem(SpriteSystem());
-    world.registerSystem(MoveSystem());
+    // world.registerSystem(MoveSystem());
 
     world.createEntity()
       ..add<SpriteComponent, SpriteInit>(
