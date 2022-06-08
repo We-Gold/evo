@@ -1,4 +1,4 @@
-import 'package:evo/game/models/node_model.dart';
+import 'package:evo/game_common/models/node_model.dart';
 import 'package:evo/resources/app_colors.dart';
 
 class InputNode extends Node {

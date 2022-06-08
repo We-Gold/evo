@@ -1,6 +1,6 @@
-import 'package:evo/game/node_types/central_node.dart';
-import 'package:evo/game/node_types/input_node.dart';
-import 'package:evo/game/node_types/output_node.dart';
+import 'package:evo/game_common/node_types/central_node.dart';
+import 'package:evo/game_common/node_types/input_node.dart';
+import 'package:evo/game_common/node_types/output_node.dart';
 
 class SpeciesMemberGenerator {
   List<InputNode> inputNodes;

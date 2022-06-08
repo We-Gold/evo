@@ -1,4 +1,4 @@
-import 'package:evo/game/node_types/central_node.dart';
+import 'package:evo/game_common/node_types/central_node.dart';
 
 class ExtraBrainpowerNode extends CentralNode {
   ExtraBrainpowerNode()

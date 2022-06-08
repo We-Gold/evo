@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum Pages { game, configuration }
 
 class PagesModel extends ChangeNotifier {
-  Pages _currentPage = Pages.game;
+  Pages _currentPage = Pages.configuration;
 
   Pages get currentPage => _currentPage;
 

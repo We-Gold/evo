@@ -1,4 +1,4 @@
-import 'package:evo/game/node_types/input_node.dart';
+import 'package:evo/game_common/node_types/input_node.dart';
 
 class QuorumSensingNode extends InputNode {
   QuorumSensingNode()

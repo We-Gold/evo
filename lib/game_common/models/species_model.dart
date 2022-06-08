@@ -1,7 +1,7 @@
-import 'package:evo/game/models/species_member_generator.dart';
-import 'package:evo/game/node_types/central_node.dart';
-import 'package:evo/game/node_types/input_node.dart';
-import 'package:evo/game/node_types/output_node.dart';
+import 'package:evo/game_common/models/species_member_generator.dart';
+import 'package:evo/game_common/node_types/central_node.dart';
+import 'package:evo/game_common/node_types/input_node.dart';
+import 'package:evo/game_common/node_types/output_node.dart';
 import 'package:flame_oxygen/flame_oxygen.dart';
 
 class Species {

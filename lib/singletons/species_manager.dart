@@ -1,4 +1,4 @@
-import 'package:evo/game/models/species_model.dart';
+import 'package:evo/game_common/models/species_model.dart';
 
 class SpeciesManager {
   SpeciesManager._privateContructor();

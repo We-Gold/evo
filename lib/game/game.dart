@@ -8,9 +8,7 @@ import 'package:flutter/material.dart';
 
 class EvoGame extends OxygenGame {
   @override
-  Color backgroundColor() {
-    return AppColors.theme3;
-  }
+  Color backgroundColor() => AppColors.theme3;
 
   @override
   Future<void> init() async {
