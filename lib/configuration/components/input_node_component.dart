@@ -15,6 +15,9 @@ class InputNodeComponent extends PositionComponent
     ..color = GameColors.inputNodeColor
     ..style = PaintingStyle.fill;
 
+  Vector2? dragDeltaPosition;
+  bool get isDragging => dragDeltaPosition != null;
+
   InputNodeComponent(this.inputNode, Vector2? position)
       : super(
             size: GameConstants.nodeSize,
@@ -29,18 +32,43 @@ class InputNodeComponent extends PositionComponent
   }
 
   @override
+  bool onDragStart(DragStartInfo info) {
+    dragDeltaPosition = info.eventPosition.game - position;
+    return false;
+  }
+
+  @override
+  bool onDragUpdate(DragUpdateInfo info) {
+    if (isDragging) {
+      final localCoords = info.eventPosition.game;
+      Vector2 position_ = localCoords - dragDeltaPosition!;
+
+      if (gameRef.containsPoint(position_)) position = position_;
+    }
+    return false;
+  }
+
+  @override
+  bool onDragEnd(DragEndInfo info) {
+    dragDeltaPosition = null;
+    return false;
+  }
+
+  @override
+  bool onDragCancel() {
+    dragDeltaPosition = null;
+    return false;
+  }
+
+  @override
   bool onHoverEnter(PointerHoverInfo info) {
     gameRef.mouseCursor.value = SystemMouseCursors.click;
-
-    info.handled = true;
     return true;
   }
 
   @override
   bool onHoverLeave(PointerHoverInfo info) {
     gameRef.mouseCursor.value = SystemMouseCursors.basic;
-
-    info.handled = true;
     return true;
   }
 
@@ -48,11 +76,11 @@ class InputNodeComponent extends PositionComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    canvas.drawRect(
-        Rect.fromCenter(
-            center: Offset(size.x / 2, size.y / 2),
-            width: size.x,
-            height: size.y),
-        boxPaint);
+    Rect boxRect = Rect.fromCenter(
+        center: Offset(size.x / 2, size.y / 2), width: size.x, height: size.y);
+
+    canvas.drawShadow(Path()..addRect(boxRect), Colors.black, 3, false);
+
+    canvas.drawRect(boxRect, boxPaint);
   }
 }
