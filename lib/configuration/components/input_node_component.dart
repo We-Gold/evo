@@ -8,11 +8,15 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart' hide Draggable;
 
 class InputNodeComponent extends PositionComponent
-    with Draggable, Tappable, Hoverable, HasGameRef<ConfigurationGame> {
+    with Draggable, Hoverable, HasGameRef<ConfigurationGame> {
   final InputNode inputNode;
 
   final Paint boxPaint = Paint()
     ..color = GameColors.inputNodeColor
+    ..style = PaintingStyle.fill;
+
+  final Paint synapsePaint = Paint()
+    ..color = GameColors.synapseColor
     ..style = PaintingStyle.fill;
 
   Vector2? dragDeltaPosition;
@@ -22,7 +26,8 @@ class InputNodeComponent extends PositionComponent
       : super(
             size: GameConstants.nodeSize,
             position: position,
-            anchor: Anchor.center);
+            anchor: Anchor.center,
+            priority: 2);
 
   @override
   void onGameResize(Vector2 size) {
@@ -82,5 +87,14 @@ class InputNodeComponent extends PositionComponent
     canvas.drawShadow(Path()..addRect(boxRect), Colors.black, 3, false);
 
     canvas.drawRect(boxRect, boxPaint);
+
+    Rect circleRect = Rect.fromCircle(
+        center: Offset(size.x, size.y / 2),
+        radius: GameConstants.synapseRadius);
+
+    canvas.drawShadow(Path()..addOval(circleRect), Colors.black, 3, false);
+
+    canvas.drawCircle(
+        Offset(size.x, size.y / 2), GameConstants.synapseRadius, synapsePaint);
   }
 }
