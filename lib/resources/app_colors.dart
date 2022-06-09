@@ -13,5 +13,5 @@ class GameColors {
   static const Color inputNodeColor = AppColors.theme5;
   static const Color outputNodeColor = Color.fromRGBO(163, 220, 245, 1);
   static const Color centralNodeColor = Color.fromRGBO(220, 220, 220, 1);
-  static const Color synapseLineColor = Colors.black;
+  static const Color synapseLineColor = Colors.white;
 }
