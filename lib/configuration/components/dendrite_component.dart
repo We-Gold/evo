@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:evo/configuration/components/axon_component.dart';
 import 'package:evo/configuration/components/node_component.dart';
 import 'package:evo/configuration/configuration.dart';
+import 'package:evo/game_common/models/node_model.dart';
 import 'package:evo/resources/app_colors.dart';
 import 'package:evo/resources/game_constants.dart';
 import 'package:flame/components.dart';
@@ -45,6 +46,10 @@ class DendriteComponent extends CircleComponent
     return findParent<NodeComponent>()!;
   }
 
+  Node getNode() {
+    return parentComponent.node;
+  }
+
   void setAxonComponent(AxonComponent? axonComponent) {
     this.axonComponent = axonComponent;
   }
@@ -59,7 +64,11 @@ class DendriteComponent extends CircleComponent
 
   @override
   void render(Canvas canvas) {
-    drawDendriteCircle(canvas, Offset(radius, radius));
+    if (isAttachedToAxon() && parentComponent.isHighPriority()) {
+      drawSynapseCircle(canvas, Offset(radius, radius));
+    } else {
+      drawDendriteCircle(canvas, Offset(radius, radius));
+    }
   }
 
   void drawDendriteCircle(Canvas canvas, Offset offset) {
@@ -67,10 +76,6 @@ class DendriteComponent extends CircleComponent
   }
 
   void drawSynapseCircle(Canvas canvas, Offset offset) {
-    Rect circleRect = Rect.fromCircle(center: offset, radius: radius);
-
-    canvas.drawShadow(Path()..addOval(circleRect), Colors.black, 3, false);
-
     canvas.drawCircle(offset, radius, synapsePaint);
   }
 }

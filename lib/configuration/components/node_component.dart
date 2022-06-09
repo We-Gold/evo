@@ -98,6 +98,8 @@ class NodeComponent extends PositionComponent
   void setHighPriority() => priority = 1;
   void setLowPriority() => priority = 0;
 
+  bool isHighPriority() => priority == 1;
+
   @override
   bool onHoverEnter(PointerHoverInfo info) {
     gameRef.mouseCursor = SystemMouseCursors.click;

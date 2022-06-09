@@ -1,6 +1,7 @@
 import 'package:evo/configuration/components/dendrite_component.dart';
 import 'package:evo/configuration/components/node_component.dart';
 import 'package:evo/configuration/configuration.dart';
+import 'package:evo/game_common/models/node_model.dart';
 import 'package:evo/resources/app_colors.dart';
 import 'package:evo/resources/game_constants.dart';
 import 'package:flame/components.dart';
@@ -44,6 +45,10 @@ class AxonComponent extends CircleComponent
 
   NodeComponent getParentComponent() {
     return findParent<NodeComponent>()!;
+  }
+
+  Node getNode() {
+    return parentComponent.node;
   }
 
   @override
@@ -96,7 +101,7 @@ class AxonComponent extends CircleComponent
   }
 
   void removeDendriteComponent() {
-    dendriteComponent!.removeAxonComponent();
+    dendriteComponent?.removeAxonComponent();
     dendriteComponent = null;
   }
 
@@ -121,11 +126,14 @@ class AxonComponent extends CircleComponent
   }
 
   @override
-  void render(Canvas canvas) {
+  void update(double dt) {
     if (isAttachedToDendrite() && !isDragging) {
       position = getDendritePosition();
     }
+  }
 
+  @override
+  void render(Canvas canvas) {
     if (isDragging || isAttachedToDendrite()) {
       Vector2 originalPosition = initialPosition.clone()..sub(position);
       Offset originalOffset =
