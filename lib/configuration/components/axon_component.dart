@@ -36,7 +36,7 @@ class AxonComponent extends CircleComponent
             position: position,
             anchor: Anchor.center,
             radius: GameConstants.synapseRadius,
-            priority: 2);
+            priority: 3);
 
   @override
   Future<void>? onLoad() async {
@@ -55,6 +55,7 @@ class AxonComponent extends CircleComponent
   bool onDragStart(DragStartInfo info) {
     parentComponent.setHighPriority();
     _isDragging = true;
+    removeDendriteComponent();
     return false;
   }
 
@@ -79,7 +80,13 @@ class AxonComponent extends CircleComponent
 
       dendriteComponent = dendrite as DendriteComponent?;
 
-      dendriteComponent!.setAxonComponent(this);
+      if (dendriteComponent!.parentComponent == parentComponent) {
+        position = initialPosition;
+        parentComponent.setLowPriority();
+        removeDendriteComponent();
+      } else {
+        dendriteComponent!.setAxonComponent(this);
+      }
     } else {
       removeDendriteComponent();
       position = initialPosition;
@@ -101,6 +108,7 @@ class AxonComponent extends CircleComponent
   }
 
   void removeDendriteComponent() {
+    position = initialPosition;
     dendriteComponent?.removeAxonComponent();
     dendriteComponent = null;
   }

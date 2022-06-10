@@ -41,30 +41,24 @@ class AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            MenuBar(color: AppColors.theme1, onclick: () => {}),
-            MenuBar(color: AppColors.theme2, onclick: () => {}),
-            game,
-            configuration,
-          ],
-        ),
-      );
-    } else {
-      return Scaffold(
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            MenuBar(color: AppColors.theme1, onclick: () => {}),
-            MenuBar(color: AppColors.theme2, onclick: () => {}),
-            game,
-            configuration,
-          ],
-        ),
-      );
-    }
+    return Scaffold(
+      body: OrientationBuilder(
+        builder: ((context, orientation) {
+          return Flex(
+            direction: orientation == Orientation.portrait
+                ? Axis.vertical
+                : Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MenuBar(color: AppColors.theme1, onclick: () => {}),
+              MenuBar(color: AppColors.theme2, onclick: () => {}),
+              game,
+              configuration,
+            ],
+          );
+        }),
+      ),
+    );
   }
 }

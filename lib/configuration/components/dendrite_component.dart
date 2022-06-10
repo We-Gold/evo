@@ -51,6 +51,7 @@ class DendriteComponent extends CircleComponent
   }
 
   void setAxonComponent(AxonComponent? axonComponent) {
+    this.axonComponent?.removeDendriteComponent();
     this.axonComponent = axonComponent;
   }
 
@@ -64,8 +65,8 @@ class DendriteComponent extends CircleComponent
 
   @override
   void render(Canvas canvas) {
-    if (isAttachedToAxon() && parentComponent.isHighPriority()) {
-      drawSynapseCircle(canvas, Offset(radius, radius));
+    if (isAttachedToAxon()) {
+      drawSynapseCircleWithShadow(canvas, Offset(radius, radius));
     } else {
       drawDendriteCircle(canvas, Offset(radius, radius));
     }
@@ -75,7 +76,11 @@ class DendriteComponent extends CircleComponent
     canvas.drawCircle(offset, radius, dendritePaint);
   }
 
-  void drawSynapseCircle(Canvas canvas, Offset offset) {
+  void drawSynapseCircleWithShadow(Canvas canvas, Offset offset) {
+    Rect circleRect = Rect.fromCircle(center: offset, radius: radius);
+
+    canvas.drawShadow(Path()..addOval(circleRect), Colors.black, 1, false);
+
     canvas.drawCircle(offset, radius, synapsePaint);
   }
 }
