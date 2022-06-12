@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:evo/configuration/components/axon_component.dart';
 import 'package:evo/configuration/components/dendrite_component.dart';
 import 'package:evo/configuration/configuration.dart';
@@ -17,6 +19,8 @@ class NodeComponent extends PositionComponent
 
   final Paint boxPaint;
 
+  Vector2? previousScreenSize;
+
   Vector2? dragDeltaPosition;
   bool get isDragging => dragDeltaPosition != null;
 
@@ -32,6 +36,9 @@ class NodeComponent extends PositionComponent
             priority: 0);
 
   Vector2? getSynapsePosition(bool isInputSynapse, int index) {
+    // Calculate where an axon or dendrite should be displayed, based on the
+    // type and the index.
+    // E.g. a node with one axon should display it halfway down the right side.
     if (isInputSynapse && index < inputNodes.length) {
       return Vector2(0, size.y * (index + 1) / (inputNodes.length + 1));
     } else if (!isInputSynapse && index < outputNodes.length) {
@@ -60,7 +67,25 @@ class NodeComponent extends PositionComponent
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
 
-    scale = Vector2.all(size.y * 1 / 1000);
+    previousScreenSize ??= size;
+
+    double scale_ = (isPortraitMode() ? size.y : size.x) * 1 / 1000;
+
+    scale = Vector2.all(clamp(scale_, 0.8, 1.1));
+
+    // Scale the current position to match the new screen size
+    position = Vector2((position.x / previousScreenSize!.x) * size.x,
+        (position.y / previousScreenSize!.y) * size.y);
+
+    previousScreenSize = size;
+  }
+
+  bool isPortraitMode() {
+    return gameRef.size.x < gameRef.size.y;
+  }
+
+  double clamp(double input, double minimum, double maximum) {
+    return min(max(input, minimum), maximum);
   }
 
   @override
@@ -76,9 +101,35 @@ class NodeComponent extends PositionComponent
       final localCoords = info.eventPosition.game;
       Vector2 position_ = localCoords - dragDeltaPosition!;
 
-      if (gameRef.containsLocalPoint(position_)) position = position_;
+      if (gameRef.containsLocalPoint(position_)) {
+        position = constrainNodeToGame(position_);
+      }
     }
     return false;
+  }
+
+  Vector2 constrainNodeToGame(Vector2 position_) {
+    Vector2 futurePosition = position.clone();
+
+    double xOffset = scaledSize.x / 2;
+    double yOffset = scaledSize.y / 2;
+
+    // Check if the future position is outside the game window on both axes
+    bool outsideXRange = (position_.x - xOffset) <= 0 ||
+        (position_.x + xOffset) >= gameRef.size.x;
+    bool outsideYRange = (position_.y - yOffset) <= 0 ||
+        (position_.y + yOffset) >= gameRef.size.y;
+
+    // Constrain the movement of the node to within the axes it has not exceeded.
+    if (outsideXRange && !outsideYRange) {
+      futurePosition.y = position_.y;
+    } else if (outsideYRange && !outsideXRange) {
+      futurePosition.x = position_.x;
+    } else if (!outsideXRange && !outsideYRange) {
+      futurePosition = position_;
+    }
+
+    return futurePosition;
   }
 
   @override
