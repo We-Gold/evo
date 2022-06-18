@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:evo/configuration/components/central_node_component.dart';
 import 'package:evo/configuration/components/input_node_component.dart';
 import 'package:evo/configuration/components/output_node_component.dart';
+import 'package:evo/configuration/components/toggle_menu_component.dart';
 import 'package:evo/game_common/nodes/chemical_sensing_node.dart';
 import 'package:evo/game_common/nodes/extra_brainpower.dart';
 import 'package:evo/game_common/nodes/taxis_node.dart';
@@ -15,6 +18,8 @@ class ConfigurationGame extends FlameGame
 
   @override
   Future<void>? onLoad() async {
+    add(ToggleMenuComponent());
+
     add(InputNodeComponent(
         ChemicalSensingNode(), Vector2(canvasSize.x / 4, canvasSize.y / 2)));
 
@@ -23,5 +28,13 @@ class ConfigurationGame extends FlameGame
 
     add(OutputNodeComponent(
         TaxisNode(), Vector2(3 * canvasSize.x / 4, canvasSize.y / 2)));
+  }
+
+  double getScale() {
+    return sqrt(size.x * size.y) * 1 / 1000;
+  }
+
+  double clamp(double input, double minimum, double maximum) {
+    return min(max(input, minimum), maximum);
   }
 }

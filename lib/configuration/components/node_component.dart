@@ -69,23 +69,15 @@ class NodeComponent extends PositionComponent
 
     previousScreenSize ??= size;
 
-    double scale_ = (isPortraitMode() ? size.y : size.x) * 1 / 1000;
+    double scale_ = gameRef.getScale();
 
-    scale = Vector2.all(clamp(scale_, 0.8, 1.1));
+    scale = Vector2.all(gameRef.clamp(scale_, 0.7, 1.1));
 
     // Scale the current position to match the new screen size
     position = Vector2((position.x / previousScreenSize!.x) * size.x,
         (position.y / previousScreenSize!.y) * size.y);
 
     previousScreenSize = size;
-  }
-
-  bool isPortraitMode() {
-    return gameRef.size.x < gameRef.size.y;
-  }
-
-  double clamp(double input, double minimum, double maximum) {
-    return min(max(input, minimum), maximum);
   }
 
   @override
@@ -101,9 +93,7 @@ class NodeComponent extends PositionComponent
       final localCoords = info.eventPosition.game;
       Vector2 position_ = localCoords - dragDeltaPosition!;
 
-      if (gameRef.containsLocalPoint(position_)) {
-        position = constrainNodeToGame(position_);
-      }
+      position = constrainNodeToGame(position_);
     }
     return false;
   }
